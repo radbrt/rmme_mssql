@@ -1,0 +1,57 @@
+version: 1
+default_environment: dev
+project_id: 14c7a93a-e770-4822-8249-a395ca0569e1
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-postgres
+    config:
+      host: localhost
+      port: 5432
+      user: postgres
+      password: SuperS3cret!
+      dbname: postgres
+    metadata:
+      '*':
+        replication-method: INCREMENTAL
+        replication-key: id
+    select:
+      - "*"
+  loaders:
+  - name: target-mssql
+    namespace: target_mssql
+    pip_url: git+https://github.com/radbrt/target-mssql.git@mssql_varchars
+    capabilities:
+    - state
+    - catalog
+    - discover
+    settings:
+    - name: username
+    - name: password
+      kind: password
+    - name: start_date
+      value: '2010-01-01T00:00:00Z'
+    config:
+      start_date: '2010-01-01T00:00:00Z'
+      host: localhost
+      port: 1433
+      user: sa
+      database: master
+      password: P@55w0rd
+  # - name: target-jsonl
+  #   variant: andyh1203
+  #   pip_url: target-jsonl
+  # - name: target-postgres
+  #   variant: transferwise
+  #   pip_url: pipelinewise-target-postgres
+  #   metadata:
+  #     '*':
+  #       key_properties: [id]
+  #   config:
+  #     host: localhost
+  #     port: 5432
+  #     user: postgres
+  #     dbname: postgres
