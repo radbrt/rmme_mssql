@@ -41,6 +41,10 @@ plugins:
       user: sa
       database: master
       password: P@55w0rd
+  - name: tap-sftp
+    executable: tap-sftp
+    namespace: tap_sftp
+    pip_url: git+https://github.com/radbrt/tap-sftp.git
   # - name: target-jsonl
   #   variant: andyh1203
   #   pip_url: target-jsonl
@@ -55,3 +59,5 @@ plugins:
   #     port: 5432
   #     user: postgres
   #     dbname: postgres
+include_paths:
+- ./extractors/*.yml
